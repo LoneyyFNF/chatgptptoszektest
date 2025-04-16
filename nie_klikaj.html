@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kliknąłeś? Oj...</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: black;
+            color: lime;
+            text-align: center;
+            margin-top: 100px;
+        }
+        .warning {
+            font-size: 2rem;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="warning">🤨 A mówiłem: NIE klikaj w dziwne linki...</h1>
+    <p>Otworzyłem Ci mnóstwo okienek. Gdyby to był wirus — miałbyś problem!</p>
+    <p>To tylko edukacja, ale następnym razem — uważaj! 🔐</p>
+
+    <audio id="sfx" autoplay>
+        <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
+    </audio>
+
+    <script>
+        // Zmiana tytułu co chwilę
+        let titles = ["🤡 Serio?", "💀 Oj...", "🚨 Uwaga!", "😱 Poważnie?", "🧠 Ucz się!"];
+        let i = 0;
+        setInterval(() => {
+            document.title = titles[i % titles.length];
+            i++;
+        }, 700);
+
+        // Otwieranie okienek
+        for (let i = 0; i < 8; i++) {
+            window.open("https://www.google.com/search?q=jak+usunąć+wirusa", "_blank", "width=400,height=400");
+        }
+
+        // Ruszająca się myszka (fake)
+        let fakeCursor = document.createElement('div');
+        fakeCursor.style = "width:20px;height:20px;position:absolute;background:red;border-radius:50%;z-index:10000;";
+        document.body.appendChild(fakeCursor);
+        let angle = 0;
+        setInterval(() => {
+            angle += 0.1;
+            let x = window.innerWidth / 2 + Math.cos(angle) * 200;
+            let y = window.innerHeight / 2 + Math.sin(angle) * 200;
+            fakeCursor.style.left = x + 'px';
+            fakeCursor.style.top = y + 'px';
+        }, 50);
+
+        // Autoodtwarzanie dźwięku
+        document.getElementById("sfx").play().catch(() => {
+            // autoplay może być zablokowany, więc odtwarzamy przy kliknięciu
+            document.body.addEventListener("click", () => {
+                document.getElementById("sfx").play();
+            });
+        });
+
+        // Po kilku sekundach pokazujemy edukacyjny alert
+        setTimeout(() => {
+            alert("Lekcja: Nigdy nie klikaj podejrzanych linków. Mogło być znacznie gorzej.");
+        }, 7000);
+    </script>
+</body>
+</html>
